@@ -1,21 +1,18 @@
-version: 0.2phases:
- install:
-   commands:     - curl -s https://getcomposer.org/installer | php     - mv  composer.phar /usr/local/bin/composer     - php --version
+version: 0.2
 
-
- build:
-   commands:
-     - echo Build started on `date`
-     - echo Installing composer deps
-     - composer install
-     - cp extra/.env ./
-     - php artisan cache:clear
-
- post_build:
-   commands:
-     - echo Build completed on `date`
-artifacts:
-  type: zip
+phases:
+  install:
+    commands:
+      - echo installing NGINX
+      - sudo apt-get update
+      - sudo apt-get install ngnix -y
+build:
+  commands:
+    - echo build started on 'date'
+    -cp index.html /var/www/html
+post_build:
+  commands:
+    - echo Coniguring NGINX
+artiacts:
   files:
-    - '**/*'
-  name: clyde-$(date +%Y-%m-%d)
+    - /var/www/html/index.html
